@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "bash ./build.sh || cd ecotracker && npm install && npm run build",
+    "build": "cd ecotracker && npm install --no-audit --no-fund --legacy-peer-deps && npm run build:vercel",
     "start": "cd ecotracker && npm start",
     "dev": "cd ecotracker && npm run dev"
   },

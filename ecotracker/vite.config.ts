@@ -11,6 +11,17 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          vendor: ['recharts', 'axios', 'react-router-dom'],
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     mode === 'development' &&
