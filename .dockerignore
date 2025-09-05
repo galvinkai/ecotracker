@@ -1,0 +1,119 @@
+# flyctl launch added from .gitignore
+# Python
+**\__pycache__
+**\*.py[cod]
+**\*$py.class
+**\*.so
+**\.Python
+**\env
+**\build
+**\develop-eggs
+**\dist
+**\downloads
+**\eggs
+**\.eggs
+**\lib
+**\lib64
+**\parts
+**\sdist
+**\var
+**\*.egg-info
+**\.installed.cfg
+**\*.egg
+**\.env
+**\.venv
+**\venv
+**\ENV
+
+# Node.js
+**\node_modules
+**\npm-debug.log
+**\yarn-debug.log
+**\yarn-error.log
+**\.pnpm-debug.log
+**\.DS_Store
+**\coverage
+**\.nyc_output
+
+# IDE
+**\.idea
+**\.vscode
+**\*.swp
+**\*.swo
+
+# Logs
+**\logs
+**\*.log
+**\npm-debug.log*
+**\yarn-debug.log*
+**\yarn-error.log*
+**\pnpm-debug.log*
+**\lerna-debug.log*
+
+# Editor directories and files
+**\.idea
+**\.DS_Store
+**\*.suo
+**\*.ntvs*
+**\*.njsproj
+**\*.sln
+**\*.sw?
+
+# Local Netlify folder
+**\.netlify
+
+# flyctl launch added from .venv\.gitignore
+.venv\**\*
+
+# flyctl launch added from ecotracker\.gitignore
+# Logs
+ecotracker\**\logs
+ecotracker\**\*.log
+ecotracker\**\npm-debug.log*
+ecotracker\**\yarn-debug.log*
+ecotracker\**\yarn-error.log*
+ecotracker\**\pnpm-debug.log*
+ecotracker\**\lerna-debug.log*
+
+ecotracker\**\node_modules
+ecotracker\**\dist
+ecotracker\**\dist-ssr
+ecotracker\**\*.local
+
+# Editor directories and files
+ecotracker\**\.vscode\*
+!ecotracker\**\.vscode\extensions.json
+ecotracker\**\.idea
+ecotracker\**\.DS_Store
+ecotracker\**\*.suo
+ecotracker\**\*.ntvs*
+ecotracker\**\*.njsproj
+ecotracker\**\*.sln
+ecotracker\**\*.sw?
+
+# flyctl launch added from esg-dashboard\.gitignore
+# Logs
+esg-dashboard\**\logs
+esg-dashboard\**\*.log
+esg-dashboard\**\npm-debug.log*
+esg-dashboard\**\yarn-debug.log*
+esg-dashboard\**\yarn-error.log*
+esg-dashboard\**\pnpm-debug.log*
+esg-dashboard\**\lerna-debug.log*
+
+esg-dashboard\**\node_modules
+esg-dashboard\**\dist
+esg-dashboard\**\dist-ssr
+esg-dashboard\**\*.local
+
+# Editor directories and files
+esg-dashboard\**\.vscode\*
+!esg-dashboard\**\.vscode\extensions.json
+esg-dashboard\**\.idea
+esg-dashboard\**\.DS_Store
+esg-dashboard\**\*.suo
+esg-dashboard\**\*.ntvs*
+esg-dashboard\**\*.njsproj
+esg-dashboard\**\*.sln
+esg-dashboard\**\*.sw?
+fly.toml
