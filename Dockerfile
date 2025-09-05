@@ -6,9 +6,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code and model
+# Copy application code, model, and QR code scripts
 COPY server.py .
 COPY trained_model.pkl .
+COPY generate_qrcode.py .
+COPY test_qrcode.py .
 
 # Set environment variables
 ENV PORT=8080

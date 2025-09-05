@@ -5,15 +5,16 @@ This script verifies that all required QR code dependencies are installed
 and generates a test QR code for the EcoTracker application.
 """
 
-import sys
 import os
+import sys
 import traceback
+
 
 def check_dependencies():
     """Check if all required packages are installed."""
     required_packages = ['qrcode', 'PIL']
     missing_packages = []
-    
+
     for package in required_packages:
         try:
             if package == 'PIL':
@@ -25,15 +26,16 @@ def check_dependencies():
         except ImportError:
             missing_packages.append(package)
             print(f"❌ {package} is not installed")
-    
+
     return missing_packages
+
 
 def generate_test_qrcode():
     """Generate a test QR code to verify functionality."""
     try:
         import qrcode
         from PIL import Image
-        
+
         # Create a test QR code
         print("Generating test QR code...")
         qr = qrcode.QRCode(
@@ -42,19 +44,20 @@ def generate_test_qrcode():
             box_size=10,
             border=4,
         )
-        
+
         qr.add_data("https://ecotracker-vercel.vercel.app/")
         qr.make(fit=True)
-        
+
         img = qr.make_image(fill_color=(40, 167, 69), back_color="white")
-        
+
         # Save the image
         test_file = "test_qrcode.png"
         img.save(test_file)
-        
+
         # Verify file was created
         if os.path.exists(test_file):
-            print(f"✅ Test QR code generated successfully: {os.path.abspath(test_file)}")
+            print(
+                f"✅ Test QR code generated successfully: {os.path.abspath(test_file)}")
             return True
         else:
             print(f"❌ Failed to save QR code")
@@ -64,25 +67,26 @@ def generate_test_qrcode():
         traceback.print_exc()
         return False
 
+
 def main():
     """Main function to test QR code generation."""
     print("=" * 50)
     print("QR CODE GENERATOR TEST")
     print("=" * 50)
-    
+
     # Check dependencies
     print("\nChecking dependencies:")
     missing_packages = check_dependencies()
-    
+
     if missing_packages:
         print("\nSome required packages are missing. Please install them with:")
         print(f"pip install {' '.join(missing_packages)}")
         return False
-    
+
     # Generate test QR code
     print("\nTesting QR code generation:")
     success = generate_test_qrcode()
-    
+
     # Summary
     print("\n" + "=" * 50)
     if success:
@@ -93,8 +97,9 @@ def main():
     else:
         print("❌ Tests failed. Please check the errors above.")
     print("=" * 50)
-    
+
     return success
+
 
 if __name__ == "__main__":
     success = main()

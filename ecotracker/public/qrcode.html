@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoTracker QR Code</title>
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
+      color: #28a745;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      color: #666;
+      margin: 8px 0 0;
+    }
+    
+    .qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    
+    .qr-code {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #eee;
+      padding: 10px;
+      background-color: white;
+      margin-bottom: 16px;
+    }
+    
+    .qr-instructions {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin: 8px 0 16px;
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    
+    .color-input-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .color-preview {
+      width: 30px;
+      height: 30px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+    }
+    
+    .button {
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.2s;
+    }
+    
+    .button-primary {
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+    }
+    
+    .button-primary:hover {
+      background-color: #218838;
+    }
+    
+    .button-secondary {
+      background-color: transparent;
+      color: #28a745;
+      border: 1px solid #28a745;
+      text-decoration: none;
+    }
+    
+    .button-secondary:hover {
+      background-color: rgba(40, 167, 69, 0.1);
+    }
+    
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 24px;
+    }
+    
+    .tab {
+      padding: 10px 16px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      font-weight: 500;
+    }
+    
+    .tab.active {
+      border-bottom-color: #28a745;
+      color: #28a745;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 16px;
+      }
+      
+      .card {
+        padding: 16px;
+      }
+      
+      .button-group {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="title">EcoTracker QR Code</h1>
+      <p class="subtitle">Scan to access EcoTracker on your mobile device</p>
+    </div>
+    
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" data-tab="display">Display</div>
+        <div class="tab" data-tab="customize">Customize</div>
+      </div>
+      
+      <div id="display-tab" class="tab-content active">
+        <div class="qr-container">
+          <div class="qr-code">
+            <img id="qr-code-image" src="" alt="EcoTracker QR Code" width="200" height="200">
+          </div>
+          <h3 id="qr-title">EcoTracker App</h3>
+          <p class="qr-instructions">Scan this code with your phone's camera to access EcoTracker</p>
+        </div>
+        
+        <div class="button-group">
+          <a href="#" class="button button-secondary" onclick="window.print(); return false;">Print QR Code</a>
+          <a id="download-link" href="#" class="button button-primary" download="ecotracker-qrcode.png">Download QR Code</a>
+        </div>
+      </div>
+      
+      <div id="customize-tab" class="tab-content">
+        <div class="form-group">
+          <label for="url-input">App URL</label>
+          <input type="text" id="url-input" value="https://ecotracker-vercel.vercel.app/" placeholder="https://your-app-url.com">
+        </div>
+        
+        <div class="form-group">
+          <label for="title-input">Title</label>
+          <input type="text" id="title-input" value="EcoTracker App" placeholder="EcoTracker App">
+        </div>
+        
+        <div class="form-group">
+          <label for="color-input">Color (hex)</label>
+          <div class="color-input-container">
+            <input type="text" id="color-input" value="#28a745" placeholder="#28a745">
+            <div class="color-preview" style="background-color: #28a745;"></div>
+          </div>
+        </div>
+        
+        <div class="button-group">
+          <button class="button button-secondary" onclick="resetForm()">Reset</button>
+          <button class="button button-primary" onclick="generateQRCode()">Apply Changes</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>How to use the QR code</h3>
+      <ul>
+        <li><strong>Scan with your phone</strong> - Open your phone's camera app and point it at the QR code. Tap the notification that appears.</li>
+        <li><strong>Share with friends</strong> - Use the "Customize" tab to create a personalized QR code, then download or print it to share with others.</li>
+        <li><strong>Print for events</strong> - Print this page for use at events or in public spaces to promote EcoTracker.</li>
+      </ul>
+    </div>
+    
+    <footer>
+      <p>EcoTracker - Track your environmental impact</p>
+      <p><a href="https://ecotracker-vercel.vercel.app/" style="color: #28a745;">Return to EcoTracker</a></p>
+    </footer>
+  </div>
+  
+  <script>
+    // Tab switching functionality
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.getAttribute('data-tab');
+        
+        // Update active tab
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Show selected tab content
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        document.getElementById(`${tabName}-tab`).classList.add('active');
+      });
+    });
+    
+    // Update color preview when color input changes
+    document.getElementById('color-input').addEventListener('input', function() {
+      const colorValue = this.value;
+      document.querySelector('.color-preview').style.backgroundColor = colorValue;
+    });
+    
+    // Reset form to default values
+    function resetForm() {
+      document.getElementById('url-input').value = 'https://ecotracker-vercel.vercel.app/';
+      document.getElementById('title-input').value = 'EcoTracker App';
+      document.getElementById('color-input').value = '#28a745';
+      document.querySelector('.color-preview').style.backgroundColor = '#28a745';
+      generateQRCode();
+    }
+  </script>
+  
+  <script src="/qrcode-fallback.js"></script>
+</body>
+</html>

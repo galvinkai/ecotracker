@@ -1,14 +1,14 @@
+import base64
 import datetime
+import io
 import json
 import os
-import io
-import base64
 
 import joblib
 import pandas as pd
-import requests
 import qrcode
-from flask import Flask, jsonify, request, send_file, render_template_string
+import requests
+from flask import Flask, jsonify, render_template_string, request, send_file
 from flask_cors import CORS
 from lime.lime_tabular import LimeTabularExplainer
 
@@ -317,17 +317,18 @@ def generate_qr_code():
     """Generate a QR code for the frontend application and return it as an image."""
     try:
         # Get the frontend URL from query parameters or use default
-        frontend_url = request.args.get('url', 'https://ecotracker-vercel.vercel.app/')
-        
+        frontend_url = request.args.get(
+            'url', 'https://ecotracker-vercel.vercel.app/')
+
         # Get optional parameters
         title = request.args.get('title', 'EcoTracker App')
         color = request.args.get('color', '#28a745')  # Default green color
-        
+
         # Parse the color string
         if color.startswith('#'):
             color = color[1:]
         color_tuple = tuple(int(color[i:i+2], 16) for i in (0, 2, 4))
-        
+
         # Create QR code instance
         qr = qrcode.QRCode(
             version=1,
@@ -335,19 +336,19 @@ def generate_qr_code():
             box_size=10,
             border=4,
         )
-        
+
         # Add data to the QR code
         qr.add_data(frontend_url)
         qr.make(fit=True)
-        
+
         # Create an image from the QR code with custom color
         qr_img = qr.make_image(fill_color=color_tuple, back_color="white")
-        
+
         # Convert to bytes for returning
         img_io = io.BytesIO()
         qr_img.save(img_io, 'PNG')
         img_io.seek(0)
-        
+
         # Return the image
         return send_file(img_io, mimetype='image/png')
     except Exception as e:
@@ -359,17 +360,18 @@ def generate_qr_code_html():
     """Generate an HTML page with embedded QR code."""
     try:
         # Get the frontend URL from query parameters or use default
-        frontend_url = request.args.get('url', 'https://ecotracker-vercel.vercel.app/')
-        
+        frontend_url = request.args.get(
+            'url', 'https://ecotracker-vercel.vercel.app/')
+
         # Get optional parameters
         title = request.args.get('title', 'EcoTracker App')
         color = request.args.get('color', '#28a745')  # Default green color
-        
+
         # Parse the color string
         if color.startswith('#'):
             color = color[1:]
         color_tuple = tuple(int(color[i:i+2], 16) for i in (0, 2, 4))
-        
+
         # Create QR code instance
         qr = qrcode.QRCode(
             version=1,
@@ -377,20 +379,20 @@ def generate_qr_code_html():
             box_size=10,
             border=4,
         )
-        
+
         # Add data to the QR code
         qr.add_data(frontend_url)
         qr.make(fit=True)
-        
+
         # Create an image from the QR code with custom color
         qr_img = qr.make_image(fill_color=color_tuple, back_color="white")
-        
+
         # Convert to base64 for embedding in HTML
         img_io = io.BytesIO()
         qr_img.save(img_io, 'PNG')
         img_io.seek(0)
         img_str = base64.b64encode(img_io.read()).decode('utf-8')
-        
+
         # Create HTML template
         html_template = """<!DOCTYPE html>
 <html lang="en">
@@ -475,13 +477,13 @@ def generate_qr_code_html():
 """
         # Render the HTML template
         html = render_template_string(
-            html_template, 
+            html_template,
             title=title,
             url=frontend_url,
             img_data=img_str,
             color=f"#{color}"
         )
-        
+
         return html
     except Exception as e:
         return jsonify({"error": str(e)}), 500

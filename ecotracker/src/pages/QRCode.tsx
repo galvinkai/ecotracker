@@ -1,10 +1,32 @@
 import QRCodeDisplay from '@/components/QRCodeDisplay';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { AlertCircle, ArrowLeft, ExternalLink } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
 
 const QRCodePage = () => {
+  const [isApiAvailable, setIsApiAvailable] = useState(true);
+  
+  // Check if API is available
+  useEffect(() => {
+    const checkApiStatus = async () => {
+      try {
+        const response = await fetch('https://ecotracker-api.fly.dev/transactions', { 
+          method: 'HEAD',
+          mode: 'cors'
+        });
+        setIsApiAvailable(response.ok);
+      } catch (error) {
+        console.error('API connection error:', error);
+        setIsApiAvailable(false);
+      }
+    };
+    
+    checkApiStatus();
+  }, []);
+  
   return (
     <div className="min-h-screen bg-gradient-accent dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 p-4 pb-20">
       <div className="max-w-4xl mx-auto space-y-6 pt-8">
@@ -14,6 +36,21 @@ const QRCodePage = () => {
             Back to Dashboard
           </Button>
         </Link>
+        
+        {!isApiAvailable && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>API Connection Error</AlertTitle>
+            <AlertDescription>
+              Unable to connect to the EcoTracker API. QR code generation may not work correctly.
+              <Button asChild variant="link" className="p-0 h-auto font-normal underline ml-2">
+                <a href="/qrcode.html" target="_blank" rel="noopener noreferrer">
+                  Use Fallback QR Code <ExternalLink className="h-3 w-3 ml-1" />
+                </a>
+              </Button>
+            </AlertDescription>
+          </Alert>
+        )}
         
         <Card className="mb-8">
           <CardHeader>
@@ -57,6 +94,21 @@ const QRCodePage = () => {
                 Click "Open Printable Version" to get a printer-friendly page that you can use at events or in public spaces.
               </p>
             </div>
+            
+            {!isApiAvailable && (
+              <div className="mt-4 pt-4 border-t">
+                <h3 className="font-semibold mb-2 text-amber-600 dark:text-amber-400">Having trouble?</h3>
+                <p className="text-muted-foreground">
+                  If the QR code doesn't load correctly, try using our 
+                  <Button asChild variant="link" className="p-0 h-auto font-normal underline mx-1">
+                    <a href="/qrcode.html" target="_blank" rel="noopener noreferrer">
+                      standalone QR code generator
+                    </a>
+                  </Button>
+                  which works without requiring the API.
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

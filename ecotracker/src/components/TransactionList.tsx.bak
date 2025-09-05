@@ -57,89 +57,59 @@ interface TransactionListProps {
   refreshKey?: number;
 }
 
-// Helper function to generate random transactions
-const generateRandomTransactions = (): Transaction[] => {
-  // Transaction templates with descriptions and categories
-  const templates = [
-    { description: "Weekly groceries", category: "Food", baseAmount: 50, amountVariance: 30 },
-    { description: "Commute to work", category: "Transport", baseAmount: 20, amountVariance: 15 },
-    { description: "Clothing purchase", category: "Shopping", baseAmount: 75, amountVariance: 50 },
-    { description: "Home electricity", category: "Energy", baseAmount: 40, amountVariance: 20 },
-    { description: "Weekend getaway", category: "Travel", baseAmount: 150, amountVariance: 100 },
-    { description: "Coffee shop", category: "Food", baseAmount: 15, amountVariance: 10 },
-    { description: "Online shopping", category: "Shopping", baseAmount: 60, amountVariance: 40 },
-    { description: "Gas bill", category: "Energy", baseAmount: 35, amountVariance: 25 },
-    { description: "Taxi ride", category: "Transport", baseAmount: 30, amountVariance: 20 },
-    { description: "Restaurant dinner", category: "Food", baseAmount: 80, amountVariance: 40 }
-  ];
-
-  // Get current date and create dates within the past week
-  const today = new Date();
-  
-  return templates.map((template, index) => {
-    // Random amount within the variance
-    const amount = Math.round((template.baseAmount + (Math.random() * template.amountVariance * 2 - template.amountVariance)) * 100) / 100;
-    
-    // Random carbon based on category and amount
-    let carbonFactor = 0;
-    switch(template.category) {
-      case "Food": carbonFactor = 0.06 + Math.random() * 0.04; break;
-      case "Transport": carbonFactor = 0.25 + Math.random() * 0.15; break;
-      case "Shopping": carbonFactor = 0.12 + Math.random() * 0.08; break;
-      case "Energy": carbonFactor = 0.14 + Math.random() * 0.06; break;
-      case "Travel": carbonFactor = 0.15 + Math.random() * 0.1; break;
-      default: carbonFactor = 0.1 + Math.random() * 0.05;
-    }
-    const carbon = Math.round(amount * carbonFactor * 100) / 100;
-    
-    // Determine impact level based on carbon amount
-    let impact = "low";
-    if (carbon > 10) impact = "high";
-    else if (carbon > 5) impact = "medium";
-    
-    // Generate a date within the past 5 days
-    const daysAgo = Math.floor(Math.random() * 5);
-    const date = new Date(today);
-    date.setDate(date.getDate() - daysAgo);
-    const dateString = date.toISOString().split('T')[0];
-    
-    return {
-      id: index + 1,
-      description: template.description,
-      amount,
-      carbon,
-      category: template.category,
-      date: dateString,
-      impact
-    };
-  });
-};
-
 export const TransactionList: React.FC<TransactionListProps> = ({ refreshKey = 0 }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Get or generate mock transactions
-  const getMockTransactions = (): Transaction[] => {
-    // Check if we already have stored mock data
-    const storedMockTransactionsKey = 'ecotracker_mock_transactions';
-    const storedMockTransactionsJSON = localStorage.getItem(storedMockTransactionsKey);
-    
-    if (storedMockTransactionsJSON) {
-      // Use stored mock transactions
-      return JSON.parse(storedMockTransactionsJSON);
-    } else {
-      // Generate new random transactions
-      const randomTransactions = generateRandomTransactions();
-      // Store for future use
-      localStorage.setItem(storedMockTransactionsKey, JSON.stringify(randomTransactions));
-      return randomTransactions;
+  // Hardcoded mock transactions to ensure we always have data to display
+  const mockTransactions = [
+    {
+      id: 1,
+      description: "Weekly groceries",
+      amount: 65.50,
+      carbon: 4.2,
+      category: "Food",
+      date: "2025-09-01",
+      impact: "medium"
+    },
+    {
+      id: 2,
+      description: "Commute to work",
+      amount: 25.00,
+      carbon: 7.8,
+      category: "Transport",
+      date: "2025-09-02",
+      impact: "high"
+    },
+    {
+      id: 3,
+      description: "Clothing purchase",
+      amount: 89.99,
+      carbon: 12.3,
+      category: "Shopping",
+      date: "2025-09-03",
+      impact: "high"
+    },
+    {
+      id: 4,
+      description: "Home electricity",
+      amount: 42.75,
+      carbon: 6.1,
+      category: "Energy",
+      date: "2025-09-04",
+      impact: "medium"
+    },
+    {
+      id: 5,
+      description: "Weekend getaway",
+      amount: 189.50,
+      carbon: 28.5,
+      category: "Travel",
+      date: "2025-09-05",
+      impact: "high"
     }
-  };
-  
-  // Get the mock transactions
-  const mockTransactions = getMockTransactions();
+  ];
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -149,18 +119,11 @@ export const TransactionList: React.FC<TransactionListProps> = ({ refreshKey = 0
         
         // Log server status for debugging
         console.log("Server online status before API call:", serverStatus.isOnline);
-        console.log("Refresh key changed:", refreshKey);
-        
-        // To reset mock transactions (useful for testing):
-        // localStorage.removeItem('ecotracker_mock_transactions');
         
         // Check if there are any offline transactions in localStorage
         const offlineTransactionsJSON = localStorage.getItem('ecotracker_offline_transactions');
         const offlineTransactions = offlineTransactionsJSON ? JSON.parse(offlineTransactionsJSON) : [];
         console.log('Offline transactions from localStorage:', offlineTransactions);
-        
-        // Initialize with an empty array
-        let allTransactions: Transaction[] = [];
         
         // Attempt to fetch transactions from API
         try {
@@ -168,50 +131,57 @@ export const TransactionList: React.FC<TransactionListProps> = ({ refreshKey = 0
           console.log("API response data:", data);
           
           // Start with API transactions
-          if (data && data.transactions) {
-            allTransactions = [...data.transactions];
-          }
-        } catch (apiError) {
-          console.error("API error, using offline data:", apiError);
-        }
-        
-        // Add any offline transactions that don't exist in API
-        if (offlineTransactions.length > 0) {
-          const existingIds = new Set(allTransactions.map((t: Transaction) => t.id));
-          const uniqueOfflineTransactions = offlineTransactions.filter(
-            (offlineTx: Transaction) => !existingIds.has(offlineTx.id)
-          );
+          let allTransactions = [...(data?.transactions || [])];
           
-          if (uniqueOfflineTransactions.length > 0) {
+          // Add any offline transactions that don't exist in API
+          if (offlineTransactions.length > 0) {
+            const apiIds = new Set(allTransactions.map((t: Transaction) => t.id));
+            const uniqueOfflineTransactions = offlineTransactions.filter(
+              (offlineTx: Transaction) => !apiIds.has(offlineTx.id)
+            );
+            
             allTransactions = [...allTransactions, ...uniqueOfflineTransactions];
             console.log('Added offline transactions:', uniqueOfflineTransactions);
           }
-        }
-        
-        // ALWAYS add mock transactions
-        // Create a set of existing IDs to avoid duplicates
-        const existingIds = new Set(allTransactions.map((t: Transaction) => t.id));
-        const uniqueMockTransactions = mockTransactions.filter(
-          (mockTx) => !existingIds.has(mockTx.id)
-        );
-        
-        if (uniqueMockTransactions.length > 0) {
-          allTransactions = [...allTransactions, ...uniqueMockTransactions];
-          console.log('Added mock transactions:', uniqueMockTransactions);
-        }
-        
-        // Sort transactions by date (newest first) and id (newest first)
-        allTransactions.sort((a, b) => {
-          // First compare by date (newest first)
-          const dateComparison = new Date(b.date).getTime() - new Date(a.date).getTime();
-          if (dateComparison !== 0) return dateComparison;
           
-          // If dates are the same, compare by ID (highest/newest first)
-          return b.id - a.id;
-        });
+          // Only add mock transactions if necessary
+          if (allTransactions.length === 0) {
+            allTransactions = [...mockTransactions];
+            console.log('Using mock transactions as fallback');
+          } else {
+            // Add mock transactions that don't conflict with real ones
+            const existingIds = new Set(allTransactions.map((t: Transaction) => t.id));
+            const uniqueMockTransactions = mockTransactions.filter(
+              (mockTx) => !existingIds.has(mockTx.id)
+            );
+            
+            allTransactions = [...allTransactions, ...uniqueMockTransactions];
+            console.log('Added mock transactions:', uniqueMockTransactions);
+          }
+            
+            // Sort transactions by date (newest first) and id (newest first)
+            combinedTransactions.sort((a, b) => {
+              // First compare by date (newest first)
+              const dateComparison = new Date(b.date).getTime() - new Date(a.date).getTime();
+              if (dateComparison !== 0) return dateComparison;
+              
+              // If dates are the same, compare by ID (highest/newest first)
+              return b.id - a.id;
+            });
+            
+            console.log("Setting combined transactions:", combinedTransactions);
+            setTransactions(combinedTransactions);
+            setLoading(false);
+            return;
+          }
+        } catch (apiError) {
+          console.error("API error, falling back to mock data:", apiError);
+        }
         
-        console.log("Setting all transactions:", allTransactions);
-        setTransactions(allTransactions);
+        // If we get here, either the API failed or returned no transactions
+        // Set our hardcoded mock transactions
+        console.log("Using hardcoded mock transactions");
+        setTransactions(mockTransactions);
       } catch (err) {
         console.error("Error in transaction fetching process:", err);
         // Still use mock data even if there's an error
@@ -223,7 +193,6 @@ export const TransactionList: React.FC<TransactionListProps> = ({ refreshKey = 0
       }
     };
 
-    // Call the function to fetch transactions
     fetchTransactions();
   }, [refreshKey]); // Add refreshKey as a dependency so the effect runs when it changes
 

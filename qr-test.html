@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #28a745;
+        }
+        .test-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        img {
+            max-width: 300px;
+            border: 1px solid #eee;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Endpoint Test</h1>
+    
+    <div class="test-card">
+        <h2>1. Direct QR Code Image</h2>
+        <div class="qr-container">
+            <img id="directQrImage" alt="QR Code" src="https://ecotracker-api.fly.dev/qrcode">
+        </div>
+        <div class="buttons">
+            <button onclick="refreshImage('directQrImage', 'https://ecotracker-api.fly.dev/qrcode')">Refresh</button>
+            <button onclick="openUrl('https://ecotracker-api.fly.dev/qrcode')">Open in New Tab</button>
+        </div>
+    </div>
+    
+    <div class="test-card">
+        <h2>2. QR Code with Custom Parameters</h2>
+        <div class="qr-container">
+            <img id="customQrImage" alt="QR Code" src="https://ecotracker-api.fly.dev/qrcode?url=https://ecotracker-vercel.vercel.app/&color=FF5733&title=Custom+QR">
+        </div>
+        <div class="buttons">
+            <button onclick="refreshImage('customQrImage', 'https://ecotracker-api.fly.dev/qrcode?url=https://ecotracker-vercel.vercel.app/&color=FF5733&title=Custom+QR')">Refresh</button>
+            <button onclick="openUrl('https://ecotracker-api.fly.dev/qrcode?url=https://ecotracker-vercel.vercel.app/&color=FF5733&title=Custom+QR')">Open in New Tab</button>
+        </div>
+    </div>
+    
+    <div class="test-card">
+        <h2>3. HTML QR Code Page</h2>
+        <p>Click the button below to open the HTML QR code page in a new tab:</p>
+        <div class="buttons">
+            <button onclick="openUrl('https://ecotracker-api.fly.dev/qrcode-html')">Open HTML QR Page</button>
+            <button onclick="openUrl('https://ecotracker-api.fly.dev/qrcode-html?url=https://ecotracker-vercel.vercel.app/&color=FF5733&title=Custom+QR')">Open Custom HTML QR Page</button>
+        </div>
+    </div>
+    
+    <div class="test-card">
+        <h2>4. Test API Response</h2>
+        <button onclick="testApiResponse()">Test API Response</button>
+        <pre id="apiResponse">Click the button above to test the API response...</pre>
+    </div>
+    
+    <script>
+        function refreshImage(id, url) {
+            const img = document.getElementById(id);
+            img.src = url + '&_=' + new Date().getTime();
+        }
+        
+        function openUrl(url) {
+            window.open(url, '_blank');
+        }
+        
+        function testApiResponse() {
+            const resultElement = document.getElementById('apiResponse');
+            resultElement.textContent = 'Testing API...';
+            
+            fetch('https://ecotracker-api.fly.dev/qrcode')
+                .then(response => {
+                    const headers = Array.from(response.headers.entries())
+                        .map(([key, value]) => `${key}: ${value}`)
+                        .join('\n');
+                    
+                    return response.blob().then(blob => {
+                        return {
+                            status: response.status,
+                            statusText: response.statusText,
+                            headers,
+                            contentType: blob.type,
+                            size: blob.size
+                        };
+                    });
+                })
+                .then(data => {
+                    resultElement.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    resultElement.textContent = 'Error: ' + error.message;
+                });
+        }
+    </script>
+</body>
+</html>

@@ -169,7 +169,7 @@ const Dashboard = () => {
           </TabsContent>
 
           <TabsContent value="transactions">
-            <TransactionList key={`transactions-${transactionRefreshKey}`} />
+            <TransactionList key={`transactions-${transactionRefreshKey}`} refreshKey={transactionRefreshKey} />
           </TabsContent>
 
           <TabsContent value="insights">

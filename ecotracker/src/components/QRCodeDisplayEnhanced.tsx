@@ -34,29 +34,24 @@ const QRCodeDisplay: React.FC<QRCodeProps> = ({
   const qrImageUrl = `${apiUrl}/qrcode?url=${encodeURIComponent(customUrl)}&title=${encodeURIComponent(customTitle)}&color=${encodeURIComponent(formattedColor)}&v=${refreshKey}`;
   const qrHtmlUrl = `${apiUrl}/qrcode-html?url=${encodeURIComponent(customUrl)}&title=${encodeURIComponent(customTitle)}&color=${encodeURIComponent(formattedColor)}`;
   
-  // Check API connection
+  // Function to check if API is accessible
   useEffect(() => {
     const checkApiStatus = async () => {
       try {
-        // Try to fetch from API to verify it's accessible
-        const response = await fetch(`${apiUrl}/transactions`, { 
-          method: 'HEAD',
-          mode: 'cors'
-        });
+        const response = await fetch(`${apiUrl}/transactions`);
         if (!response.ok) {
-          throw new Error(`API returned ${response.status}`);
+          throw new Error(`API returned ${response.status} ${response.statusText}`);
         }
         setQrLoaded(true);
         setErrorMsg('');
       } catch (error) {
-        console.error('API connection error:', error);
         setQrLoaded(false);
         setErrorMsg(`Could not connect to API: ${error instanceof Error ? error.message : String(error)}`);
       }
     };
     
     checkApiStatus();
-  }, [apiUrl, refreshKey]);
+  }, [apiUrl]);
   
   const handleRefresh = () => {
     setRefreshKey(prev => prev + 1);
@@ -83,20 +78,11 @@ const QRCodeDisplay: React.FC<QRCodeProps> = ({
           
           <TabsContent value="display" className="flex flex-col items-center">
             {!qrLoaded && (
-              <Alert variant="destructive" className="mb-4 w-full">
+              <Alert variant="destructive" className="mb-4">
                 <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Connection Error</AlertTitle>
+                <AlertTitle>Error</AlertTitle>
                 <AlertDescription>
                   {errorMsg || 'Could not load QR code. Please try again later.'}
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="mt-2 ml-2"
-                    onClick={handleRefresh}
-                  >
-                    <RefreshCcw className="h-4 w-4 mr-1" />
-                    Retry
-                  </Button>
                 </AlertDescription>
               </Alert>
             )}
