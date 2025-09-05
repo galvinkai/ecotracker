@@ -16,6 +16,7 @@ import {
     MessageCircle,
     Plane,
     Plus,
+    QrCode,
     ShoppingBag,
     Target,
     TrendingDown,
@@ -178,6 +179,15 @@ const Dashboard = () => {
 
         {/* Floating Action Buttons */}
         <div className="fixed bottom-6 right-6 flex flex-col space-y-4">
+          <Link to="/qrcode">
+            <Button
+              className="h-14 w-14 rounded-full shadow-lg bg-blue-600 hover:bg-blue-700 hover:shadow-xl transition-all text-white"
+              size="icon"
+              title="Share QR Code"
+            >
+              <QrCode className="h-6 w-6" />
+            </Button>
+          </Link>
           <Link to="/chat">
             <Button
               className="h-14 w-14 rounded-full shadow-lg bg-green-600 hover:bg-green-700 hover:shadow-xl transition-all text-white"

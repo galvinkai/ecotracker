@@ -9,6 +9,7 @@ import Chat from "./pages/Chat";
 import Dashboard from "./pages/Dashboard";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import QRCodePage from "./pages/QRCode";
 
 // Create a query client with retry and cache config
 const queryClient = new QueryClient({
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/qrcode" element={<QRCodePage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
