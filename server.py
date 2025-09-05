@@ -1,11 +1,14 @@
 import datetime
 import json
 import os
+import io
+import base64
 
 import joblib
 import pandas as pd
 import requests
-from flask import Flask, jsonify, request
+import qrcode
+from flask import Flask, jsonify, request, send_file, render_template_string
 from flask_cors import CORS
 from lime.lime_tabular import LimeTabularExplainer
 
@@ -307,6 +310,181 @@ def get_insights():
         "insights": insights,
         "messages": messages
     })
+
+
+@app.route('/qrcode', methods=['GET'])
+def generate_qr_code():
+    """Generate a QR code for the frontend application and return it as an image."""
+    try:
+        # Get the frontend URL from query parameters or use default
+        frontend_url = request.args.get('url', 'https://ecotracker-vercel.vercel.app/')
+        
+        # Get optional parameters
+        title = request.args.get('title', 'EcoTracker App')
+        color = request.args.get('color', '#28a745')  # Default green color
+        
+        # Parse the color string
+        if color.startswith('#'):
+            color = color[1:]
+        color_tuple = tuple(int(color[i:i+2], 16) for i in (0, 2, 4))
+        
+        # Create QR code instance
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=10,
+            border=4,
+        )
+        
+        # Add data to the QR code
+        qr.add_data(frontend_url)
+        qr.make(fit=True)
+        
+        # Create an image from the QR code with custom color
+        qr_img = qr.make_image(fill_color=color_tuple, back_color="white")
+        
+        # Convert to bytes for returning
+        img_io = io.BytesIO()
+        qr_img.save(img_io, 'PNG')
+        img_io.seek(0)
+        
+        # Return the image
+        return send_file(img_io, mimetype='image/png')
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/qrcode-html', methods=['GET'])
+def generate_qr_code_html():
+    """Generate an HTML page with embedded QR code."""
+    try:
+        # Get the frontend URL from query parameters or use default
+        frontend_url = request.args.get('url', 'https://ecotracker-vercel.vercel.app/')
+        
+        # Get optional parameters
+        title = request.args.get('title', 'EcoTracker App')
+        color = request.args.get('color', '#28a745')  # Default green color
+        
+        # Parse the color string
+        if color.startswith('#'):
+            color = color[1:]
+        color_tuple = tuple(int(color[i:i+2], 16) for i in (0, 2, 4))
+        
+        # Create QR code instance
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=10,
+            border=4,
+        )
+        
+        # Add data to the QR code
+        qr.add_data(frontend_url)
+        qr.make(fit=True)
+        
+        # Create an image from the QR code with custom color
+        qr_img = qr.make_image(fill_color=color_tuple, back_color="white")
+        
+        # Convert to base64 for embedding in HTML
+        img_io = io.BytesIO()
+        qr_img.save(img_io, 'PNG')
+        img_io.seek(0)
+        img_str = base64.b64encode(img_io.read()).decode('utf-8')
+        
+        # Create HTML template
+        html_template = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+        }
+        h1 {
+            color: {{ color }};
+            margin-bottom: 20px;
+        }
+        .qr-code {
+            margin: 20px 0;
+        }
+        .url {
+            margin-top: 20px;
+            word-break: break-all;
+            color: #666;
+        }
+        .instructions {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+            text-align: left;
+        }
+        .print-button {
+            background-color: {{ color }};
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ title }}</h1>
+        <div class="qr-code">
+            <img src="data:image/png;base64,{{ img_data }}" alt="QR Code">
+        </div>
+        <div class="url">{{ url }}</div>
+        <button class="print-button no-print" onclick="window.print()">Print QR Code</button>
+        <div class="instructions no-print">
+            <p><strong>How to use:</strong></p>
+            <ol>
+                <li>Open your phone's camera app</li>
+                <li>Point it at the QR code</li>
+                <li>Tap the notification that appears</li>
+                <li>Start using EcoTracker!</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
+"""
+        # Render the HTML template
+        html = render_template_string(
+            html_template, 
+            title=title,
+            url=frontend_url,
+            img_data=img_str,
+            color=f"#{color}"
+        )
+        
+        return html
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
