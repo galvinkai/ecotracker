@@ -54,7 +54,7 @@ To display the QR code in your React application:
 2. Add it to your page:
    ```tsx
    <QRCodeDisplay 
-     appUrl="https://ecotracker-vercel.vercel.app/" 
+     appUrl="https://ecotracker-sable.vercel.app/" 
      apiUrl="https://ecotracker-api.fly.dev"
      title="EcoTracker App"
      color="28a745"

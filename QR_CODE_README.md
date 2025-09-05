@@ -13,7 +13,7 @@ The EcoTracker backend server now includes two new endpoints for QR code generat
 **Method:** `GET`
 
 **Query Parameters:**
-- `url` (optional): The URL to encode in the QR code (default: `https://ecotracker-vercel.vercel.app/`)
+- `url` (optional): The URL to encode in the QR code (default: `https://ecotracker-sable.vercel.app/`)
 - `title` (optional): The title for the QR code (default: `EcoTracker App`)
 - `color` (optional): The color for the QR code in hex format (default: `#28a745`)
 
@@ -57,7 +57,7 @@ python generate_qrcode.py [OPTIONS]
 ```
 
 **Options:**
-- `--url URL`: URL to encode in QR code (default: https://ecotracker-vercel.vercel.app/)
+- `--url URL`: URL to encode in QR code (default: https://ecotracker-sable.vercel.app/)
 - `--title TITLE`: Title for the QR code (default: EcoTracker App)
 - `--logo LOGO_PATH`: Path to logo file to overlay on QR code
 - `--color COLOR`: Color for QR code (hex format, default: #28a745 - green)

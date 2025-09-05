@@ -61,7 +61,7 @@ const QRCodePage = () => {
           </CardHeader>
           <CardContent className="flex justify-center">
             <QRCodeDisplay 
-              appUrl="https://ecotracker-vercel.vercel.app/" 
+              appUrl="https://ecotracker-sable.vercel.app/" 
               apiUrl="https://ecotracker-api.fly.dev"
               title="EcoTracker App"
               color="28a745"

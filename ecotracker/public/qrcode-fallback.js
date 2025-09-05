@@ -2,7 +2,7 @@
 // Add this script to the HTML body to generate a QR code without requiring backend access
 
 function generateQRCode() {
-  const url = document.getElementById('url-input').value || 'https://ecotracker-vercel.vercel.app/';
+  const url = document.getElementById('url-input').value || 'https://ecotracker-sable.vercel.app/';
   const title = document.getElementById('title-input').value || 'EcoTracker App';
   const color = document.getElementById('color-input').value || '28a745';
   

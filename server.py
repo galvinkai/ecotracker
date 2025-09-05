@@ -318,7 +318,7 @@ def generate_qr_code():
     try:
         # Get the frontend URL from query parameters or use default
         frontend_url = request.args.get(
-            'url', 'https://ecotracker-vercel.vercel.app/')
+            'url', 'https://ecotracker-sable.vercel.app/')
 
         # Get optional parameters
         title = request.args.get('title', 'EcoTracker App')
@@ -361,7 +361,7 @@ def generate_qr_code_html():
     try:
         # Get the frontend URL from query parameters or use default
         frontend_url = request.args.get(
-            'url', 'https://ecotracker-vercel.vercel.app/')
+            'url', 'https://ecotracker-sable.vercel.app/')
 
         # Get optional parameters
         title = request.args.get('title', 'EcoTracker App')

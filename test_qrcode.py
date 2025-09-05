@@ -45,7 +45,7 @@ def generate_test_qrcode():
             border=4,
         )
 
-        qr.add_data("https://ecotracker-vercel.vercel.app/")
+        qr.add_data("https://ecotracker-sable.vercel.app/")
         qr.make(fit=True)
 
         img = qr.make_image(fill_color=(40, 167, 69), back_color="white")

@@ -7,7 +7,7 @@ import qrcode
 from PIL import Image, ImageDraw, ImageFont
 
 
-def generate_qr_code(url, output_path, title=None, logo_path=None, include_title=True, color="#28a745"):
+def generate_qr_code(url, output_path, title=None, logo_path=None, include_title=True, color="#28a7                        help='URL to encode in QR code (default: https://ecotracker-sable.vercel.app/')5"):
     """
     Generate a QR code for the given URL
 
@@ -216,7 +216,7 @@ def qr_to_html(url, title=None, logo_path=None, color="#28a745"):
 def main():
     parser = argparse.ArgumentParser(
         description='Generate QR code for EcoTracker application')
-    parser.add_argument('--url', default='https://ecotracker-vercel.vercel.app/',
+    parser.add_argument('--url', default='https://ecotracker-sable.vercel.app/',
                         help='URL to encode in QR code (default: https://ecotracker-vercel.vercel.app/)')
     parser.add_argument('--title', default='EcoTracker App',
                         help='Title for the QR code')
