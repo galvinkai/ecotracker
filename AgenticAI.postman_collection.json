@@ -1,0 +1,72 @@
+{
+	"info": {
+		"_postman_id": "e62acda3-2b49-49cb-b5e4-d2bb7f61554f",
+		"name": "AgenticAI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11825641"
+	},
+	"item": [
+		{
+			"name": "Predict Emission - Initial Response",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"quantity_used (tons)\": 3200,\n  \"carbon_emission (tons CO2)\": 6500,\n  \"water_usage (liters)\": 12000,\n  \"waste_generated (tons)\": 300,\n  \"good_used\": \"Petroleum Products\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/predict",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Chatbot Conversation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"What is ESG ? I am not too sure about it \"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/conversation",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"conversation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

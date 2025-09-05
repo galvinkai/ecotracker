@@ -1,0 +1,13 @@
+# Netlify Configuration File
+# This file helps Netlify understand how to build and deploy your app
+
+[build]
+  base = "ecotracker/"
+  publish = "dist/"
+  command = "npm run build"
+
+# Redirect all routes to index.html for client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

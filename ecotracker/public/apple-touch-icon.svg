@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <!-- Background -->
+  <rect width="180" height="180" fill="#22c55e" rx="40" ry="40" />
+  
+  <!-- Leaf icon from Lucide React (centered and sized appropriately for Apple Touch Icon) -->
+  <g transform="translate(40, 35)">
+    <path fill="#ffffff" d="M60 103a48 48 0 0 1-8-95.9c40.7-7.3 59.2-3.5 74.7 13.6 
+      6.7 7.3 13.3 27.8 13.3 56 0 38.4-33.4 69.3-74.7 69.3-24.1 0-45.8-8.2-60.7-21.3"></path>
+    <path fill="#ffffff" d="M-29.5 103c0-20.9 12.8-38.2 35.1-42.7 25.7-5.1 41.5-14.8 48.8-22.3"></path>
+  </g>
+</svg>
+</svg>
