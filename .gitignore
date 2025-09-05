@@ -60,3 +60,6 @@ lerna-debug.log*
 
 # Local Netlify folder
 .netlify
+
+# Exclude ESG Dashboard
+/esg-dashboard/

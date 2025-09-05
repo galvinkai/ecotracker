@@ -1,9 +1,21 @@
 {
   "version": 2,
-  "public": true,
-  "cleanUrls": true,
-  "trailingSlash": false,
+  "builds": [
+    {
+      "src": "ecotracker/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/ecotracker/dist/$1" }
+  ],
   "github": {
-    "silent": true
+    "silent": true,
+    "enabled": true,
+    "autoAlias": true
   }
 }

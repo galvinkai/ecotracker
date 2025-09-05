@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "vercel-build": "cd ecotracker && npm install && npm run build",
     "build": "cd ecotracker && npm install && npm run build",
     "start": "cd ecotracker && npm run preview",
     "dev": "cd ecotracker && npm run dev"
-  }
+  },
+  "workspaces": [
+    "ecotracker"
+  ]
 }

@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build || (echo 'Build failed' && exit 1)",
-    "debug-build": "NODE_ENV=production vite build --debug",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
