@@ -2,12 +2,12 @@
   "name": "ecotracker-root",
   "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "ecotracker"
+  ],
   "scripts": {
-    "build": "cd ecotracker && npm install --no-audit --no-fund --legacy-peer-deps && npm run build:vercel",
+    "build": "cd ecotracker && npm run build",
     "start": "cd ecotracker && npm start",
     "dev": "cd ecotracker && npm run dev"
-  },
-  "engines": {
-    "node": ">=18.0.0"
   }
 }
