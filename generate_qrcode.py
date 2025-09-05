@@ -89,8 +89,12 @@ def generate_qr_code(url, output_path, title=None, logo_path=None, include_title
         qr_img = full_img
     
     # Save the QR code
-    qr_img.save(output_path)
-    print(f"QR code saved to {output_path}")
+    if isinstance(output_path, str):
+        qr_img.save(output_path)
+        print(f"QR code saved to {output_path}")
+    else:
+        # It's a file-like object
+        qr_img.save(output_path, format="PNG")
     
     return qr_img
 
@@ -113,7 +117,7 @@ def qr_to_html(url, title=None, logo_path=None, color="#28a745"):
     img_buffer.seek(0)
     
     # Convert to base64 for embedding in HTML
-    img_str = base64.b64encode(img_buffer.read()).decode('utf-8')
+    img_str = base64.b64encode(img_buffer.getvalue()).decode('utf-8')
     
     # Create HTML
     html = f"""<!DOCTYPE html>
