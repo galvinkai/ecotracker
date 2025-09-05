@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "buildCommand": "cd ecotracker && npm install && npm run build",
+  "outputDirectory": "ecotracker/dist",
+  "framework": "vite",
+  "installCommand": "cd ecotracker && npm install",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

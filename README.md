@@ -33,6 +33,25 @@ git push -u origin main
    - Output Directory: dist
 6. Click "Deploy"
 
+#### Troubleshooting Vercel Deployment Issues
+If you encounter build errors with messages like "npm error code ENOENT" or "Could not read package.json", use the following solutions:
+
+1. Make sure you've set the correct root directory (ecotracker) in your Vercel project settings
+2. Use the vercel.json configuration file at the root of the repository:
+```json
+{
+  "version": 2,
+  "buildCommand": "cd ecotracker && npm install && npm run build",
+  "outputDirectory": "ecotracker/dist",
+  "framework": "vite",
+  "installCommand": "cd ecotracker && npm install",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+```
+3. Alternatively, use the package.json file at the root level to redirect builds to the ecotracker directory
+
 ### Step 3: Deploy the Backend
 
 #### Option A: Deploy on Railway.app

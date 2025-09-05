@@ -1,0 +1,130 @@
+# EcoTracker App Presentation Guide
+
+## How to Take Screenshots
+
+Here's how you can take screenshots of the EcoTracker app:
+
+1. **Launch the app** by running it locally or visiting https://ecotracker-sable.vercel.app/
+2. Use Windows' built-in screenshot tools:
+   - Press `Windows + Shift + S` to open the Snipping Tool
+   - Select the area of the screen you want to capture
+   - The screenshot will be copied to your clipboard
+   - Paste it into your presentation software or save it as an image file
+
+3. **Key screens to capture**:
+   - Homepage/Dashboard with the carbon footprint overview
+   - Transaction list showing eco-impact of purchases
+   - Carbon trend chart showing footprint over time
+   - Insights panel with recommendations
+   - QR code sharing screen
+   - Add transaction modal
+
+## EcoTracker App Explanation
+
+### Overview
+EcoTracker is a sustainable finance application that helps users track and reduce their carbon footprint by analyzing their purchasing decisions. It combines financial tracking with environmental impact assessment to promote more sustainable consumer choices.
+
+### Core Features
+
+**1. Carbon Footprint Dashboard**
+- Provides a visual overview of the user's environmental impact
+- Displays current carbon footprint with trend analysis
+- Shows progress toward personal sustainability targets
+- Uses a color-coded system to indicate impact levels (high, medium, low)
+
+**2. Transaction Tracking with Environmental Impact**
+- Records user purchases and automatically calculates their carbon footprint
+- Categorizes transactions by material type (Cotton, Glass, Petroleum Products, Plastic, Steel, Timber, Wheat)
+- Assigns impact levels to each transaction based on carbon emission calculations
+- Preserves transaction history for progress tracking
+
+**3. Carbon Trend Visualization**
+- Charts carbon footprint over time (monthly breakdown)
+- Compares actual footprint against target goals
+- Uses area charts with gradient fill for visual appeal
+- Includes fallback data generation for first-time users
+
+**4. AI-Powered Insights and Recommendations**
+- Provides personalized recommendations to reduce environmental impact
+- Highlights achievements when users make sustainable choices
+- Offers practical tips for more eco-friendly purchasing decisions
+- Analyzes spending patterns to suggest alternatives
+
+**5. QR Code Sharing**
+- Allows users to share the app with friends and family
+- Generates customizable QR codes that link to the application
+- Includes offline fallback for QR code generation when server is unavailable
+- Supports customization of colors and titles
+
+**6. Offline Functionality**
+- Works without internet connection using localStorage for data persistence
+- Synchronizes data when connection is restored
+- Provides visual indicators when in offline mode
+- Generates fallback data when API connections fail
+
+### Technical Implementation
+
+**1. Frontend**
+- Built with React and TypeScript for type safety and component reusability
+- Uses Recharts for data visualization components
+- Implements responsive design for mobile and desktop users
+- Features dark mode support for reduced energy consumption and better accessibility
+
+**2. Backend**
+- Python Flask server for API endpoints and data processing
+- Machine learning model for environmental impact assessment
+- QR code generation API with customization options
+- Handles both synchronous and asynchronous requests
+
+**3. Data Management**
+- Uses localStorage for offline data persistence
+- Implements randomization for first-time user experience
+- Maintains transaction history with environmental metadata
+- Generates fallback data when needed for visualization continuity
+
+### Environmental Impact Calculation
+
+The app calculates carbon footprint based on:
+- Material type (different materials have different carbon factors)
+- Quantity of material used
+- Production process impact
+- Transportation considerations
+- Waste potential
+
+### User Benefits
+
+1. **Environmental Awareness**: Helps users understand the environmental impact of their purchases
+2. **Behavioral Change**: Encourages more sustainable consumer choices through actionable insights
+3. **Progress Tracking**: Shows improvement over time to motivate continued sustainable practices
+4. **Financial Management**: Combines financial tracking with environmental consciousness
+5. **Social Sharing**: Enables users to promote sustainable practices among their networks
+
+### Suggested Presentation Structure
+
+1. **Introduction** (1-2 slides)
+   - Problem statement: Consumer purchasing decisions impact the environment
+   - Solution: EcoTracker app for sustainable financial management
+
+2. **App Overview** (1 slide)
+   - Screenshot of main dashboard
+   - Key value proposition
+
+3. **Core Features** (5-6 slides)
+   - One slide per feature with screenshots
+   - Focus on user benefits for each feature
+
+4. **Technical Innovation** (1-2 slides)
+   - How the app calculates environmental impact
+   - Machine learning model application
+
+5. **User Journey** (1-2 slides)
+   - Show the user flow from adding transactions to receiving insights
+   - Highlight how behavior changes over time
+
+6. **Impact & Future Vision** (1 slide)
+   - Potential environmental impact if widely adopted
+   - Future feature roadmap
+
+7. **Demo & Q&A** (1 slide)
+   - QR code for audience to try the app
+   - Contact information
